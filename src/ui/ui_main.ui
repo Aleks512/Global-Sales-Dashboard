@@ -187,22 +187,26 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>140</y>
+      <x>10</x>
+      <y>100</y>
       <width>271</width>
       <height>281</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="0">
+      <widget class="QLabel" name="costs_lb">
+       <property name="text">
+        <string>Coûts mensuels</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="fil_name_lb">
        <property name="text">
         <string>Nom de filiale</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="fil_name_le"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="country_lb">
@@ -211,38 +215,21 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="country_le"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="date_lb">
+     <item row="6" column="0">
+      <widget class="QLabel" name="new_client_nr_lb">
        <property name="text">
-        <string>Date</string>
+        <string>Nouv. clients</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QDateEdit" name="dateEdit"/>
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="satisfaction_le"/>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="revenue_lb">
-       <property name="text">
-        <string>Revenus mens.</string>
-       </property>
-      </widget>
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="new_client_nr_le"/>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="revenue_le"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="costs_lb">
-       <property name="text">
-        <string>Coûts mensuels</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="costs_le"/>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="vol_le"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="vol_lb">
@@ -251,19 +238,6 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="vol_le"/>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="new_client_nr_lb">
-       <property name="text">
-        <string>Nouv. clients</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="new_client_nr_le"/>
-     </item>
      <item row="7" column="0">
       <widget class="QLabel" name="satisfaction_lb">
        <property name="text">
@@ -271,8 +245,25 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="satisfaction_le"/>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="country_le"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="fil_name_le"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="revenue_lb">
+       <property name="text">
+        <string>Revenus mens.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="date_lb">
+       <property name="text">
+        <string>Date</string>
+       </property>
+      </widget>
      </item>
      <item row="8" column="0">
       <widget class="QLabel" name="depense_pub_lb">
@@ -281,22 +272,19 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
+     <item row="2" column="1">
+      <widget class="QDateEdit" name="dateEdit"/>
+     </item>
      <item row="8" column="1">
       <widget class="QLineEdit" name="depense_pub_le"/>
      </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>1210</x>
-      <y>440</y>
-      <width>131</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="costs_le"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="revenue_le"/>
+     </item>
+     <item row="9" column="1">
       <widget class="QPushButton" name="add_btn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -309,45 +297,18 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
-     <item>
-      <spacer name="verticalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Orientation::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>30</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="update_btn">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Modifier la ligne</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Orientation::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>30</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>450</y>
+      <width>125</width>
+      <height>108</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="save_btn">
        <property name="sizePolicy">
@@ -368,8 +329,8 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>30</height>
+         <width>123</width>
+         <height>48</height>
         </size>
        </property>
       </spacer>
