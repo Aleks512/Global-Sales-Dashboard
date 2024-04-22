@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main.ui'
+## Form generated from reading UI file 'ui_main.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1356, 911)
+        MainWindow.resize(1508, 911)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -217,23 +217,23 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addItem(self.verticalSpacer_3)
 
-        self.save_btn = QPushButton(self.layoutWidget1)
-        self.save_btn.setObjectName(u"save_btn")
-        sizePolicy.setHeightForWidth(self.save_btn.sizePolicy().hasHeightForWidth())
-        self.save_btn.setSizePolicy(sizePolicy)
-
-        self.verticalLayout.addWidget(self.save_btn)
-
-        self.verticalSpacer_2 = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer_2)
-
         self.update_btn = QPushButton(self.layoutWidget1)
         self.update_btn.setObjectName(u"update_btn")
         sizePolicy.setHeightForWidth(self.update_btn.sizePolicy().hasHeightForWidth())
         self.update_btn.setSizePolicy(sizePolicy)
 
         self.verticalLayout.addWidget(self.update_btn)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
+
+        self.save_btn = QPushButton(self.layoutWidget1)
+        self.save_btn.setObjectName(u"save_btn")
+        sizePolicy.setHeightForWidth(self.save_btn.sizePolicy().hasHeightForWidth())
+        self.save_btn.setSizePolicy(sizePolicy)
+
+        self.verticalLayout.addWidget(self.save_btn)
 
         self.verticalSpacer = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -249,7 +249,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1356, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1508, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -294,8 +294,8 @@ class Ui_MainWindow(object):
         self.satisfaction_lb.setText(QCoreApplication.translate("MainWindow", u"Satisfaction % ", None))
         self.depense_pub_lb.setText(QCoreApplication.translate("MainWindow", u"D\u00e9p. publicit\u00e9", None))
         self.add_btn.setText(QCoreApplication.translate("MainWindow", u"Ajouter", None))
+        self.update_btn.setText(QCoreApplication.translate("MainWindow", u"Modifier la ligne", None))
         self.save_btn.setText(QCoreApplication.translate("MainWindow", u"Sauvgarder", None))
-        self.update_btn.setText(QCoreApplication.translate("MainWindow", u"Modifier", None))
-        self.delete_btn.setText(QCoreApplication.translate("MainWindow", u"Supprimer", None))
+        self.delete_btn.setText(QCoreApplication.translate("MainWindow", u"Supprimer la ligne", None))
     # retranslateUi
 

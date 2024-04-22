@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1356</width>
+    <width>1508</width>
     <height>911</height>
    </rect>
   </property>
@@ -323,7 +323,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="save_btn">
+      <widget class="QPushButton" name="update_btn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -331,7 +331,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Sauvgarder</string>
+        <string>Modifier la ligne</string>
        </property>
       </widget>
      </item>
@@ -349,7 +349,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="update_btn">
+      <widget class="QPushButton" name="save_btn">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -357,7 +357,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Modifier</string>
+        <string>Sauvgarder</string>
        </property>
       </widget>
      </item>
@@ -383,7 +383,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Supprimer</string>
+        <string>Supprimer la ligne</string>
        </property>
       </widget>
      </item>
@@ -395,7 +395,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1356</width>
+     <width>1508</width>
      <height>33</height>
     </rect>
    </property>
