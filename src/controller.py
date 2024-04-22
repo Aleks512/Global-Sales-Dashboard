@@ -27,6 +27,7 @@ class MainWindowController(QMainWindow):
         self.load_data_into_table()
 
         # Connect UI signals to slots
+        self.ui.add_btn.clicked.connect(self.add_data)
         self.ui.save_btn.clicked.connect(self.save_data)
         self.ui.update_btn.clicked.connect(self.update_data)
         self.ui.delete_btn.clicked.connect(self.delete_data)
@@ -43,17 +44,6 @@ class MainWindowController(QMainWindow):
         data = self.db_manager.fetch_all()
         self.table_manager.load_data(data)
 
-
-    #self.ui.data_tb_wgt.itemSelectionChanged.connect(self.selection_changed)
-
-    # def update_data(self):
-    #     row_index = self.ui.data_tb_wgt.currentRow()
-    #     if row_index != -1:
-    #         data = self.form_manager.collect_data()
-    #         if data and self.form_manager.validate_data(data):
-    #             id = int(self.ui.data_tb_wgt.item(row_index, 0).text())  # Assuming the ID is in the first column
-    #             self.db_manager.update_entry(id, **data)
-    #             self.load_data_into_table()
 
     def save_data(self):
         # Iterate over each row and save changes to the database
