@@ -2,12 +2,12 @@ import os
 import sqlite3
 
 class DatabaseManager:
-    _instance = None  # Attribut privé pour stocker l'unique instance
+    _instance = None  # Singleton pattern to ensure only one instance exists
 
     def __new__(cls, db_filename):
         if cls._instance is None:
             cls._instance = super(DatabaseManager, cls).__new__(cls)
-            # Initialisation de l'instance
+            # Initialization of the instance
             cls._instance.db_filename = db_filename
             full_path = os.path.abspath(db_filename)
             cls._instance.connection = sqlite3.connect(full_path, check_same_thread=False)
@@ -47,7 +47,7 @@ class DatabaseManager:
             self.connection.rollback()
 
     def fetch_all(self):
-        self.cursor.execute("SELECT filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs FROM sales_data")
+        self.cursor.execute("SELECT id, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs FROM sales_data")
         return self.cursor.fetchall()
 
     def update_entry(self, id, **kwargs):
@@ -59,6 +59,3 @@ class DatabaseManager:
     def delete_entry(self, id):
         self.cursor.execute("DELETE FROM sales_data WHERE id = ?", (id,))
         self.connection.commit()
-
-# Utilisation
-db_manager = DatabaseManager("sales.db")
