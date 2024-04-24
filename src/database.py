@@ -2,20 +2,34 @@ import os
 import sqlite3
 
 class DatabaseManager:
-    _instance = None  # Singleton pattern to ensure only one instance exists
+    """
+    A singleton class to manage database operations for a sales application.
 
-    def __new__(cls, db_filename):
-        if cls._instance is None:
+    This class ensures that only one instance of the database connection is created,
+    using the Singleton design pattern. It provides methods to interact with the
+    database, such as adding, fetching, updating, and deleting records.
+
+    Attributes:
+        db_filename (str): The path to the SQLite database file.
+        connection (sqlite3.Connection): The SQLite connection object.
+        cursor (sqlite3.Cursor): The cursor object used to execute SQL commands.
+    """
+
+    _instance = None  # Singleton instance
+
+    def __new__(cls, db_path='sales.db'):
+        if not cls._instance:
             cls._instance = super(DatabaseManager, cls).__new__(cls)
-            # Initialization of the instance
-            cls._instance.db_filename = db_filename
-            full_path = os.path.abspath(db_filename)
-            cls._instance.connection = sqlite3.connect(full_path, check_same_thread=False)
+            cls._instance.db_filename = os.path.join(os.path.abspath(os.path.dirname(__file__)), db_path)
+            cls._instance.connection = sqlite3.connect(cls._instance.db_filename, check_same_thread=False)
             cls._instance.cursor = cls._instance.connection.cursor()
             cls._instance.initialize_database()
         return cls._instance
 
     def initialize_database(self):
+        """
+        Creates the sales_data table in the database if it does not exist.
+        """
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS sales_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,14 +42,15 @@ class DatabaseManager:
                 new_clients INTEGER,
                 satisfaction_rate INTEGER,
                 advertising_costs REAL
-            )
+            );
         """)
         self.connection.commit()
 
-    def close(self):
-        self.connection.close()
-
-    def add_entry(self, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs):
+    def add_entry(self, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients,
+                  satisfaction_rate, advertising_costs):
+        """
+        Adds a new entry to the sales_data table.
+        """
         try:
             self.cursor.execute("""
                 INSERT INTO sales_data (filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs)
@@ -43,19 +58,35 @@ class DatabaseManager:
             """, (filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs))
             self.connection.commit()
         except sqlite3.Error as e:
-            print("An error occurred:", e.args[0])
+            print(f"An error occurred: {e}")
             self.connection.rollback()
 
     def fetch_all(self):
+        """
+        Fetches all entries from the sales_data table.
+        """
         self.cursor.execute("SELECT id, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs FROM sales_data")
         return self.cursor.fetchall()
 
     def update_entry(self, id, **kwargs):
+        """
+        Updates an entry in the sales_data table based on the given id.
+        """
         columns = ', '.join([f"{k} = ?" for k in kwargs])
         values = list(kwargs.values()) + [id]
         self.cursor.execute(f"UPDATE sales_data SET {columns} WHERE id = ?", values)
         self.connection.commit()
 
     def delete_entry(self, id):
+        """
+        Deletes an entry from the sales_data table based on the given id.
+        """
         self.cursor.execute("DELETE FROM sales_data WHERE id = ?", (id,))
         self.connection.commit()
+
+    def close(self):
+        """
+        Closes the database connection.
+        """
+        self.connection.close()
+

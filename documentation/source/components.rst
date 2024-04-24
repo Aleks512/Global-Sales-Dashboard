@@ -1,29 +1,10 @@
-components package
+Components Package
 ==================
 
-Submodules
-----------
+.. toctree::
+   :maxdepth: 2
 
-components.form\_manager module
--------------------------------
+   components/form_manager
+   components/table_manager
 
-.. automodule:: components.form_manager
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
-components.table\_manager module
---------------------------------
-
-.. automodule:: components.table_manager
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: components
-   :members:
-   :undoc-members:
-   :show-inheritance:

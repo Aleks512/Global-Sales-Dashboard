@@ -1,91 +1,55 @@
 from PySide6.QtWidgets import QMainWindow
-from ui.ui_main import Ui_MainWindow  # Make sure this is the correct class name
+from ui.ui_main import Ui_MainWindow
 from database import DatabaseManager
 from components.form_manager import FormManager
-from components.table_manager import TableManager  # Assuming this is the correct import path
-
+from components.table_manager import TableManager
+import os
 
 class MainWindowController(QMainWindow):
+    """
+    Main window controller managing UI interactions and coordinating with the form and table managers.
+    """
+
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # Initialize database manager
-        self.db_manager = DatabaseManager("../sales.db")
-
-        # Initialize form manager
+        # Initialize managers
+        self.db_manager = DatabaseManager(os.path.join(os.path.dirname(__file__), "sales.db"))
         self.form_manager = FormManager(self.ui)
+        self.table_manager = TableManager(self.ui.data_tb_wgt, self.db_manager)
 
-        # Initialize table manager
-        self.table_manager = TableManager(self.ui.data_tb_wgt)
-        headers = ['ID','Filiale Name', 'Country', 'Date', 'Revenue €', 'Costs €', 'Volume', 'Clients', 'Satisfaction %',
-                   'Ad Costs']
+        # Setup table
+        headers = ['ID', 'Filiale Name', 'Country', 'Date', 'Revenue €', 'Costs €', 'Volume', 'Clients', 'Satisfaction %', 'Ad Costs']
         self.table_manager.setup_table(headers)
+        self.table_manager.load_data()
 
-        # Load data into table
-        self.load_data_into_table()
-
-        # Connect UI signals to slots
+        # Connect UI signals
         self.ui.add_btn.clicked.connect(self.add_data)
-        self.ui.save_btn.clicked.connect(self.save_data)
-        self.ui.update_btn.clicked.connect(self.update_data)
+        self.ui.save_btn.clicked.connect(self.table_manager.update_all_rows)
         self.ui.delete_btn.clicked.connect(self.delete_data)
 
-        #self.ui.data_tb_wgt.cellClicked.connect(self.cell_was_clicked)
-
     def add_data(self):
+        """
+        Collects data from the form, validates it, and adds a new entry to the database.
+        """
         data = self.form_manager.collect_data()
-        if data and self.form_manager.validate_data(data):
-            self.db_manager.add_entry(**data)
-            self.load_data_into_table()
+        if data:
+            self.table_manager.db_manager.add_entry(**data)
+            self.table_manager.load_data()
 
-    def load_data_into_table(self):
-        data = self.db_manager.fetch_all()
-        self.table_manager.load_data(data)
-
-
-    def save_data(self):
-        # Iterate over each row and save changes to the database
-        for row in range(self.table_manager.table_widget.rowCount()):
-            id = int(self.table_manager.table_widget.item(row, 0).text())  # Assuming the ID is in the first column
-            updated_data = {
-                'filiale_name': self.table_manager.table_widget.item(row, 1).text(),
-                'country': self.table_manager.table_widget.item(row, 2).text(),
-                'date': self.table_manager.table_widget.item(row, 3).text(),
-                'monthly_revenue': float(self.table_manager.table_widget.item(row, 4).text()),
-                'monthly_costs': float(self.table_manager.table_widget.item(row, 5).text()),
-                'sales_volume': int(self.table_manager.table_widget.item(row, 6).text()),
-                'new_clients': int(self.table_manager.table_widget.item(row, 7).text()),
-                'satisfaction_rate': int(self.table_manager.table_widget.item(row, 8).text()),
-                'advertising_costs': float(self.table_manager.table_widget.item(row, 9).text())
-            }
-            self.db_manager.update_entry(id, **updated_data)
-
-    def update_data(self):
-        row_index = self.table_manager.table_widget.currentRow()
-        if row_index != -1:
-            id = int(self.table_manager.table_widget.item(row_index, 0).text())
-            updated_data = {
-                'filiale_name': self.table_manager.table_widget.item(row_index, 1).text(),
-                'country': self.table_manager.table_widget.item(row_index, 2).text(),
-                'date': self.table_manager.table_widget.item(row_index, 3).text(),
-                'monthly_revenue': float(self.table_manager.table_widget.item(row_index, 4).text()),
-                'monthly_costs': float(self.table_manager.table_widget.item(row_index, 5).text()),
-                'sales_volume': int(self.table_manager.table_widget.item(row_index, 6).text()),
-                'new_clients': int(self.table_manager.table_widget.item(row_index, 7).text()),
-                'satisfaction_rate': int(self.table_manager.table_widget.item(row_index, 8).text()),
-                'advertising_costs': float(self.table_manager.table_widget.item(row_index, 9).text())
-            }
-            self.db_manager.update_entry(id, **updated_data)
     def delete_data(self):
+        """
+        Deletes the selected row in the table.
+        """
         row_index = self.ui.data_tb_wgt.currentRow()
         if row_index != -1:
-            id = int(self.ui.data_tb_wgt.item(row_index, 0).text())
-            self.db_manager.delete_entry(id)
-            self.table_manager.delete_row(row_index)  # Using TableManager to handle row deletion
-
+            self.table_manager.delete_row(row_index)
 
     def closeEvent(self, event):
+        """
+        Ensures database connections are closed when the application is closed.
+        """
         self.db_manager.close()
-        event.accept()
+        super().closeEvent(event)
