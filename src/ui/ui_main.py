@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1503, 911)
+        MainWindow.resize(1499, 903)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -47,7 +47,7 @@ class Ui_MainWindow(object):
 "")
         self.a_title_label = QLabel(self.centralwidget)
         self.a_title_label.setObjectName(u"a_title_label")
-        self.a_title_label.setGeometry(QRect(10, 10, 651, 70))
+        self.a_title_label.setGeometry(QRect(10, 10, 731, 70))
         font = QFont()
         font.setFamilies([u"Segoe UI"])
         font.setPointSize(22)
@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.data_tb_wgt.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         self.data_tb_wgt.setObjectName(u"data_tb_wgt")
-        self.data_tb_wgt.setGeometry(QRect(20, 440, 1161, 291))
+        self.data_tb_wgt.setGeometry(QRect(20, 440, 1061, 321))
         self.data_tb_wgt.setStyleSheet(u"gridline-color: rgb(85, 0, 127);")
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
@@ -197,7 +197,7 @@ class Ui_MainWindow(object):
 
         self.layoutWidget1 = QWidget(self.centralwidget)
         self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.layoutWidget1.setGeometry(QRect(1200, 440, 151, 291))
+        self.layoutWidget1.setGeometry(QRect(1100, 470, 221, 291))
         self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -243,7 +243,7 @@ class Ui_MainWindow(object):
 
         self.layoutWidget2 = QWidget(self.centralwidget)
         self.layoutWidget2.setObjectName(u"layoutWidget2")
-        self.layoutWidget2.setGeometry(QRect(760, 10, 571, 71))
+        self.layoutWidget2.setGeometry(QRect(760, 10, 571, 74))
         self.horizontalLayout = QHBoxLayout(self.layoutWidget2)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -272,6 +272,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addLayout(self.verticalLayout_4)
 
+        self.horizontalSpacer = QSpacerItem(15, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.label_3 = QLabel(self.layoutWidget2)
@@ -293,6 +297,10 @@ class Ui_MainWindow(object):
 
 
         self.horizontalLayout.addLayout(self.verticalLayout_3)
+
+        self.horizontalSpacer_2 = QSpacerItem(15, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -316,10 +324,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
+        self.kpi_btn = QPushButton(self.centralwidget)
+        self.kpi_btn.setObjectName(u"kpi_btn")
+        self.kpi_btn.setGeometry(QRect(1220, 390, 111, 36))
+        sizePolicy.setHeightForWidth(self.kpi_btn.sizePolicy().hasHeightForWidth())
+        self.kpi_btn.setSizePolicy(sizePolicy)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1503, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1499, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -371,5 +384,6 @@ class Ui_MainWindow(object):
         self.costs_lb_2.setText(QCoreApplication.translate("MainWindow", u"Lorem", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Total Income in K\u20ac", None))
         self.income_lb.setText(QCoreApplication.translate("MainWindow", u"Lorem", None))
+        self.kpi_btn.setText(QCoreApplication.translate("MainWindow", u"KPI ->", None))
     # retranslateUi
 
