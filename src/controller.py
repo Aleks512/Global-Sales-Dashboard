@@ -1,9 +1,15 @@
+import locale
 from PySide6.QtWidgets import QMainWindow, QMessageBox
 from ui.ui_main import Ui_MainWindow
 from components.form_manager import FormManager
 from components.table_manager import TableManager
 from database import DatabaseManager
-import os
+from components.kpi_window import KPIManager
+import pandas as pd
+
+# Set the locale to support thousands' separator
+locale.setlocale(locale.LC_ALL, '')
+
 
 class MainWindowController(QMainWindow):
     """
@@ -15,12 +21,14 @@ class MainWindowController(QMainWindow):
         self.ui.setupUi(self)
 
         # Initialize database and managers
-        self.db_manager = DatabaseManager(os.path.join(os.path.dirname(__file__), "sales.db"))
+        self.db_manager = DatabaseManager()
         self.form_manager = FormManager(self.ui)
         self.table_manager = TableManager(self.ui.data_tb_wgt, self.db_manager)
+        self.kpi_manager = KPIManager(self.db_manager)
 
         # Setup table with headers
-        headers = ['ID', 'Filiale Name', 'Country', 'Date', 'Revenue €', 'Costs €', 'Volume', 'Clients', 'Satisfaction %', 'Ad Costs']
+        headers = ['ID', 'Filiale Name', 'Country', 'Date', 'Revenue €', 'Costs €', 'Volume', 'Clients',
+                   'Satisfaction %', 'Ad Costs']
         self.table_manager.setup_table(headers)
         self.table_manager.load_data()
 
@@ -28,6 +36,34 @@ class MainWindowController(QMainWindow):
         self.ui.add_btn.clicked.connect(self.add_data)
         self.ui.save_btn.clicked.connect(self.table_manager.update_all_rows)
         self.ui.delete_btn.clicked.connect(self.delete_selected_data)
+        self.ui.gen_repport_btn.clicked.connect(self.update_display)
+        self.ui.kpi_btn.clicked.connect(self.kpi_manager.show)
+        # Initialize display with data
+        self.update_display()
+    def show_kpi(self):
+        """
+        Displays the KPI Manager widget.
+        """
+        self.kpi_manager.show()  # Affiche le widget de KPI
+
+    def update_display(self):
+        """
+        Fetches current data and updates the UI display with formatted numbers.
+        """
+        df = pd.read_sql_query("SELECT * FROM sales_data", self.db_manager.connection)
+        if not df.empty:
+            total_revenue = df['monthly_revenue'].sum()
+            total_costs = df['monthly_costs'].sum()
+            net_income = total_revenue - total_costs - df['advertising_costs'].sum()
+
+            # Format the values with thousands separator and two decimal points
+            self.ui.revenue_lb_2.setText(locale.format_string("%0.2f €", total_revenue, grouping=True))
+            self.ui.costs_lb_2.setText(locale.format_string("%0.2f €", total_costs, grouping=True))
+            self.ui.income_lb.setText(locale.format_string("%0.2f €", net_income, grouping=True))
+        else:
+            self.ui.revenue_lb_2.setText("No Data")
+            self.ui.costs_lb_2.setText("No Data")
+            self.ui.income_lb.setText("No Data")
 
     def add_data(self):
         """
@@ -38,6 +74,7 @@ class MainWindowController(QMainWindow):
             self.db_manager.add_entry(**data)
             self.table_manager.load_data()
             self.form_manager.reset_inputs()
+
 
     def delete_selected_data(self):
         """
