@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMenuBar, QPushButton,
-    QSizePolicy, QStatusBar, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QMainWindow,
+    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
+    QStatusBar, QWidget)
 
 class Ui_kpi_window(object):
     def setupUi(self, kpi_window):
@@ -27,7 +28,60 @@ class Ui_kpi_window(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(10, 20, 75, 24))
+        self.pushButton.setGeometry(QRect(20, 30, 75, 24))
+        self.layoutWidget = QWidget(self.centralwidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(20, 70, 741, 51))
+        self.horizontalLayout = QHBoxLayout(self.layoutWidget)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.label = QLabel(self.layoutWidget)
+        self.label.setObjectName(u"label")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setStyleSheet(u"background-color: rgb(255, 101, 209);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.label)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
+        self.label_2 = QLabel(self.layoutWidget)
+        self.label_2.setObjectName(u"label_2")
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setStyleSheet(u"background-color: rgb(0, 255, 255);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.label_2)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
+        self.label_3 = QLabel(self.layoutWidget)
+        self.label_3.setObjectName(u"label_3")
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setStyleSheet(u"background-color: rgb(0, 85, 255);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);")
+
+        self.horizontalLayout.addWidget(self.label_3)
+
+        self.country_wdg = QWidget(self.centralwidget)
+        self.country_wdg.setObjectName(u"country_wdg")
+        self.country_wdg.setGeometry(QRect(40, 190, 441, 211))
+        self.date_wdg = QWidget(self.centralwidget)
+        self.date_wdg.setObjectName(u"date_wdg")
+        self.date_wdg.setGeometry(QRect(40, 470, 441, 271))
         kpi_window.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(kpi_window)
         self.menubar.setObjectName(u"menubar")
@@ -45,5 +99,8 @@ class Ui_kpi_window(object):
     def retranslateUi(self, kpi_window):
         kpi_window.setWindowTitle(QCoreApplication.translate("kpi_window", u"MainWindow", None))
         self.pushButton.setText(QCoreApplication.translate("kpi_window", u"PDF", None))
+        self.label.setText(QCoreApplication.translate("kpi_window", u"TextLabel", None))
+        self.label_2.setText(QCoreApplication.translate("kpi_window", u"costs_label", None))
+        self.label_3.setText(QCoreApplication.translate("kpi_window", u"TextLabel", None))
     # retranslateUi
 
