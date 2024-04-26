@@ -37,6 +37,7 @@ class MainWindowController(QMainWindow):
         if data and self.form_manager.validate_data(data):
             self.db_manager.add_entry(**data)
             self.table_manager.load_data()
+            self.form_manager.reset_inputs()
 
     def delete_selected_data(self):
         """

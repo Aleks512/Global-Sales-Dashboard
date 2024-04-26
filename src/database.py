@@ -65,18 +65,23 @@ class DatabaseManager:
         """
         Fetches all entries from the sales_data table.
         """
-        self.cursor.execute("SELECT id, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs FROM sales_data")
+        self.cursor.execute("SELECT * FROM sales_data")
         return self.cursor.fetchall()
 
-    def update_entry(self, id, **kwargs):
+    def update_entry(self, id, filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs):
         """
         Updates an entry in the sales_data table based on the given id.
         """
-        columns = ', '.join([f"{k} = ?" for k in kwargs])
-        values = list(kwargs.values()) + [id]
-        self.cursor.execute(f"UPDATE sales_data SET {columns} WHERE id = ?", values)
-        self.connection.commit()
-
+        try:
+            self.cursor.execute("""
+                UPDATE sales_data SET
+                filiale_name = ?, country = ?, date = ?, monthly_revenue = ?, monthly_costs = ?, sales_volume = ?, new_clients = ?, satisfaction_rate = ?, advertising_costs = ?
+                WHERE id = ?
+            """, (filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs, id))
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print(f"Update error: {e}")
+            self.connection.rollback()
     def delete_entry(self, id):
         """
         Deletes an entry from the sales_data table based on the given id.

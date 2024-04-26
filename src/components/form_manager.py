@@ -76,3 +76,14 @@ class FormManager:
             QMessageBox.warning(None, "Input Error", "Numeric fields must not be negative, and satisfaction rate must be between 0 and 100.")
             return False
         return True
+
+    def reset_inputs(self):
+        self.ui.fil_name_le.clear()
+        self.ui.country_le.clear()
+        self.ui.dateEdit.setDate(datetime.today())  # Reset to today's date
+        self.ui.revenue_le.clear()
+        self.ui.costs_le.clear()
+        self.ui.vol_le.clear()
+        self.ui.new_client_nr_le.clear()
+        self.ui.satisfaction_le.clear()
+        self.ui.depense_pub_le.clear()
