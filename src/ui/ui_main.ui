@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1508</width>
+    <width>1503</width>
     <height>911</height>
    </rect>
   </property>
@@ -19,7 +19,8 @@
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
     <string notr="true">QWidget {
-    background-color: rgb(89, 97, 255);
+ 
+qconicalgradient(cx:0.486, cy:0.505682, angle:0, stop:0.86758 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))
 }
 
 QLabel {
@@ -37,22 +38,29 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
    <widget class="QLabel" name="a_title_label">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>0</y>
-      <width>281</width>
+      <x>10</x>
+      <y>10</y>
+      <width>651</width>
       <height>70</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Arial Rounded MT Bold</family>
-      <pointsize>9</pointsize>
+      <family>Segoe UI</family>
+      <pointsize>22</pointsize>
       <italic>false</italic>
       <bold>false</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font: 22pt &quot;Segoe UI&quot;;
+background-color: qlineargradient(spread:pad, x1:0.242342, y1:0.699, x2:1, y2:1, stop:0.155251 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
     <property name="text">
-     <string>Global Sales Dashboard - Super Entreprise</string>
+     <string>Global Sales Dashboard - HAPPY PEOPLE Corp</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="data_tb_wgt">
@@ -116,8 +124,8 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>140</y>
+      <x>290</x>
+      <y>100</y>
       <width>461</width>
       <height>281</height>
      </rect>
@@ -129,8 +137,8 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
    <widget class="QGraphicsView" name="graphicsView_2">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>140</y>
+      <x>760</x>
+      <y>100</y>
       <width>571</width>
       <height>281</height>
      </rect>
@@ -138,51 +146,6 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
     <property name="styleSheet">
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="gen_repport_btn">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>100</y>
-      <width>181</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Generer les rapports</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="image_upload_btn">
-    <property name="geometry">
-     <rect>
-      <x>960</x>
-      <y>100</y>
-      <width>181</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Charger images</string>
-    </property>
-   </widget>
-   <widget class="QSplitter" name="splitter">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>110</y>
-      <width>401</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Orientation::Horizontal</enum>
-    </property>
-    <widget class="QLineEdit" name="search_le"/>
-    <widget class="QPushButton" name="research_btn">
-     <property name="text">
-      <string>Rechercher</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
@@ -299,13 +262,13 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>1200</x>
-      <y>450</y>
-      <width>125</width>
-      <height>108</height>
+      <y>440</y>
+      <width>151</width>
+      <height>291</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -329,8 +292,8 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>123</width>
-         <height>48</height>
+         <width>20</width>
+         <height>30</height>
         </size>
        </property>
       </spacer>
@@ -348,6 +311,169 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="gen_repport_btn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Generer les rapports</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>30</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="image_upload_btn">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Charger images</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>10</y>
+      <width>571</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">border:none;</string>
+         </property>
+         <property name="text">
+          <string>Total Revenue in K€</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="revenue_lb_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(100, 255, 0);
+font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+border: none;</string>
+         </property>
+         <property name="text">
+          <string>Lorem</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="styleSheet">
+          <string notr="true">border:none;</string>
+         </property>
+         <property name="text">
+          <string>Total Costs in k€©</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="costs_lb_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(200, 255, 0);
+font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+border: none;</string>
+         </property>
+         <property name="text">
+          <string>Lorem</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">border:none;</string>
+         </property>
+         <property name="text">
+          <string>Total Income in K€</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="income_lb">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 85, 0);
+font: 700 12pt &quot;Segoe UI&quot;;
+color: rgb(0, 0, 0);
+border: none;</string>
+         </property>
+         <property name="text">
+          <string>Lorem</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -356,7 +482,7 @@ font: 9pt &quot;Arial Rounded MT Bold&quot;;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1508</width>
+     <width>1503</width>
      <height>33</height>
     </rect>
    </property>

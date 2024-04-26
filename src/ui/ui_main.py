@@ -15,22 +15,23 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDateEdit, QGraphicsView, QGridLayout,
-    QHeaderView, QLabel, QLineEdit, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
-    QSplitter, QStatusBar, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QDateEdit, QFrame, QGraphicsView,
+    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenuBar, QPushButton,
+    QSizePolicy, QSpacerItem, QStatusBar, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1508, 911)
+        MainWindow.resize(1503, 911)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"QWidget {\n"
-"    background-color: rgb(89, 97, 255);\n"
+" \n"
+"qconicalgradient(cx:0.486, cy:0.505682, angle:0, stop:0.86758 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))\n"
 "}\n"
 "\n"
 "QLabel {\n"
@@ -46,13 +47,16 @@ class Ui_MainWindow(object):
 "")
         self.a_title_label = QLabel(self.centralwidget)
         self.a_title_label.setObjectName(u"a_title_label")
-        self.a_title_label.setGeometry(QRect(580, 0, 281, 70))
+        self.a_title_label.setGeometry(QRect(10, 10, 651, 70))
         font = QFont()
-        font.setFamilies([u"Arial Rounded MT Bold"])
-        font.setPointSize(9)
+        font.setFamilies([u"Segoe UI"])
+        font.setPointSize(22)
         font.setBold(False)
         font.setItalic(False)
         self.a_title_label.setFont(font)
+        self.a_title_label.setStyleSheet(u"font: 22pt \"Segoe UI\";\n"
+"background-color: qlineargradient(spread:pad, x1:0.242342, y1:0.699, x2:1, y2:1, stop:0.155251 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));")
+        self.a_title_label.setFrameShape(QFrame.Shape.StyledPanel)
         self.data_tb_wgt = QTableWidget(self.centralwidget)
         if (self.data_tb_wgt.columnCount() < 9):
             self.data_tb_wgt.setColumnCount(9)
@@ -79,28 +83,12 @@ class Ui_MainWindow(object):
         self.data_tb_wgt.setStyleSheet(u"gridline-color: rgb(85, 0, 127);")
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setGeometry(QRect(300, 140, 461, 281))
+        self.graphicsView.setGeometry(QRect(290, 100, 461, 281))
         self.graphicsView.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.graphicsView_2 = QGraphicsView(self.centralwidget)
         self.graphicsView_2.setObjectName(u"graphicsView_2")
-        self.graphicsView_2.setGeometry(QRect(770, 140, 571, 281))
+        self.graphicsView_2.setGeometry(QRect(760, 100, 571, 281))
         self.graphicsView_2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.gen_repport_btn = QPushButton(self.centralwidget)
-        self.gen_repport_btn.setObjectName(u"gen_repport_btn")
-        self.gen_repport_btn.setGeometry(QRect(770, 100, 181, 31))
-        self.image_upload_btn = QPushButton(self.centralwidget)
-        self.image_upload_btn.setObjectName(u"image_upload_btn")
-        self.image_upload_btn.setGeometry(QRect(960, 100, 181, 31))
-        self.splitter = QSplitter(self.centralwidget)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setGeometry(QRect(300, 110, 401, 23))
-        self.splitter.setOrientation(Qt.Orientation.Horizontal)
-        self.search_le = QLineEdit(self.splitter)
-        self.search_le.setObjectName(u"search_le")
-        self.splitter.addWidget(self.search_le)
-        self.research_btn = QPushButton(self.splitter)
-        self.research_btn.setObjectName(u"research_btn")
-        self.splitter.addWidget(self.research_btn)
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(10, 100, 271, 281))
@@ -207,34 +195,131 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.add_btn, 9, 1, 1, 1)
 
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(1200, 450, 125, 108))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget1 = QWidget(self.centralwidget)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(1200, 440, 151, 291))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.save_btn = QPushButton(self.widget)
+        self.save_btn = QPushButton(self.layoutWidget1)
         self.save_btn.setObjectName(u"save_btn")
         sizePolicy.setHeightForWidth(self.save_btn.sizePolicy().hasHeightForWidth())
         self.save_btn.setSizePolicy(sizePolicy)
 
         self.verticalLayout.addWidget(self.save_btn)
 
-        self.verticalSpacer = QSpacerItem(123, 48, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.delete_btn = QPushButton(self.widget)
+        self.delete_btn = QPushButton(self.layoutWidget1)
         self.delete_btn.setObjectName(u"delete_btn")
         sizePolicy.setHeightForWidth(self.delete_btn.sizePolicy().hasHeightForWidth())
         self.delete_btn.setSizePolicy(sizePolicy)
 
         self.verticalLayout.addWidget(self.delete_btn)
 
+        self.verticalSpacer_2 = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
+
+        self.gen_repport_btn = QPushButton(self.layoutWidget1)
+        self.gen_repport_btn.setObjectName(u"gen_repport_btn")
+        sizePolicy.setHeightForWidth(self.gen_repport_btn.sizePolicy().hasHeightForWidth())
+        self.gen_repport_btn.setSizePolicy(sizePolicy)
+
+        self.verticalLayout.addWidget(self.gen_repport_btn)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 30, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_3)
+
+        self.image_upload_btn = QPushButton(self.layoutWidget1)
+        self.image_upload_btn.setObjectName(u"image_upload_btn")
+        sizePolicy.setHeightForWidth(self.image_upload_btn.sizePolicy().hasHeightForWidth())
+        self.image_upload_btn.setSizePolicy(sizePolicy)
+
+        self.verticalLayout.addWidget(self.image_upload_btn)
+
+        self.layoutWidget2 = QWidget(self.centralwidget)
+        self.layoutWidget2.setObjectName(u"layoutWidget2")
+        self.layoutWidget2.setGeometry(QRect(760, 10, 571, 71))
+        self.horizontalLayout = QHBoxLayout(self.layoutWidget2)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.label_5 = QLabel(self.layoutWidget2)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setStyleSheet(u"border:none;")
+
+        self.verticalLayout_4.addWidget(self.label_5)
+
+        self.revenue_lb_2 = QLabel(self.layoutWidget2)
+        self.revenue_lb_2.setObjectName(u"revenue_lb_2")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.revenue_lb_2.sizePolicy().hasHeightForWidth())
+        self.revenue_lb_2.setSizePolicy(sizePolicy1)
+        self.revenue_lb_2.setStyleSheet(u"background-color: rgb(100, 255, 0);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);\n"
+"border: none;")
+
+        self.verticalLayout_4.addWidget(self.revenue_lb_2)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_4)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.label_3 = QLabel(self.layoutWidget2)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setStyleSheet(u"border:none;")
+
+        self.verticalLayout_3.addWidget(self.label_3)
+
+        self.costs_lb_2 = QLabel(self.layoutWidget2)
+        self.costs_lb_2.setObjectName(u"costs_lb_2")
+        sizePolicy1.setHeightForWidth(self.costs_lb_2.sizePolicy().hasHeightForWidth())
+        self.costs_lb_2.setSizePolicy(sizePolicy1)
+        self.costs_lb_2.setStyleSheet(u"background-color: rgb(200, 255, 0);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);\n"
+"border: none;")
+
+        self.verticalLayout_3.addWidget(self.costs_lb_2)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
+
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label = QLabel(self.layoutWidget2)
+        self.label.setObjectName(u"label")
+        self.label.setStyleSheet(u"border:none;")
+
+        self.verticalLayout_2.addWidget(self.label)
+
+        self.income_lb = QLabel(self.layoutWidget2)
+        self.income_lb.setObjectName(u"income_lb")
+        sizePolicy1.setHeightForWidth(self.income_lb.sizePolicy().hasHeightForWidth())
+        self.income_lb.setSizePolicy(sizePolicy1)
+        self.income_lb.setStyleSheet(u"background-color: rgb(255, 85, 0);\n"
+"font: 700 12pt \"Segoe UI\";\n"
+"color: rgb(0, 0, 0);\n"
+"border: none;")
+
+        self.verticalLayout_2.addWidget(self.income_lb)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1508, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1503, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -247,7 +332,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.a_title_label.setText(QCoreApplication.translate("MainWindow", u"Global Sales Dashboard - Super Entreprise", None))
+        self.a_title_label.setText(QCoreApplication.translate("MainWindow", u"Global Sales Dashboard - HAPPY PEOPLE Corp", None))
         ___qtablewidgetitem = self.data_tb_wgt.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Nom de la Filiale", None));
         ___qtablewidgetitem1 = self.data_tb_wgt.horizontalHeaderItem(1)
@@ -266,9 +351,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Taux de Satisfaction (%)", None));
         ___qtablewidgetitem8 = self.data_tb_wgt.horizontalHeaderItem(8)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"D\u00e9penses Publicitaires (\u20ac)", None));
-        self.gen_repport_btn.setText(QCoreApplication.translate("MainWindow", u"Generer les rapports", None))
-        self.image_upload_btn.setText(QCoreApplication.translate("MainWindow", u"Charger images", None))
-        self.research_btn.setText(QCoreApplication.translate("MainWindow", u"Rechercher", None))
         self.costs_lb.setText(QCoreApplication.translate("MainWindow", u"Co\u00fbts mensuels", None))
         self.fil_name_lb.setText(QCoreApplication.translate("MainWindow", u"Nom de filiale", None))
         self.country_lb.setText(QCoreApplication.translate("MainWindow", u"Pays ", None))
@@ -281,5 +363,13 @@ class Ui_MainWindow(object):
         self.add_btn.setText(QCoreApplication.translate("MainWindow", u"Ajouter", None))
         self.save_btn.setText(QCoreApplication.translate("MainWindow", u"Sauvgarder", None))
         self.delete_btn.setText(QCoreApplication.translate("MainWindow", u"Supprimer la ligne", None))
+        self.gen_repport_btn.setText(QCoreApplication.translate("MainWindow", u"Generer les rapports", None))
+        self.image_upload_btn.setText(QCoreApplication.translate("MainWindow", u"Charger images", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Total Revenue in K\u20ac", None))
+        self.revenue_lb_2.setText(QCoreApplication.translate("MainWindow", u"Lorem", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Total Costs in k\u20ac\u00a9", None))
+        self.costs_lb_2.setText(QCoreApplication.translate("MainWindow", u"Lorem", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Total Income in K\u20ac", None))
+        self.income_lb.setText(QCoreApplication.translate("MainWindow", u"Lorem", None))
     # retranslateUi
 
