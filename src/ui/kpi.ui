@@ -38,7 +38,7 @@
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="revenue_label">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -69,7 +69,7 @@ color: rgb(0, 0, 0);</string>
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="costs_label">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -124,18 +124,18 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>40</x>
       <y>190</y>
-      <width>441</width>
-      <height>211</height>
+      <width>341</width>
+      <height>611</height>
      </rect>
     </property>
    </widget>
    <widget class="QWidget" name="date_wdg" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>470</y>
+      <x>400</x>
+      <y>190</y>
       <width>441</width>
-      <height>271</height>
+      <height>611</height>
      </rect>
     </property>
    </widget>
