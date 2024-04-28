@@ -3,13 +3,15 @@ from database import DatabaseManager
 
 class TableManager:
     """
-    Manages the QTableWidget for displaying and interacting with data rows.
-    Responsible for setting up the table, loading data from the database,
-    and handling CRUD operations directly from the table view.
+    Manages the QTableWidget for displaying and interacting with data rows of database.
+    Its primary role could be focused on handling the operations and interactions of the table data (like CRUD operations),
+    without needing to know about the specific columns or context of the data it's displaying.
+    This makes TableManager more reusable and generic, which can be adapted to different types of data tables in the same application.
     """
     def __init__(self, table_widget: QTableWidget, db_manager: DatabaseManager):
         self.table_widget = table_widget
         self.db_manager = db_manager
+
 
     def setup_table(self, headers):
         self.table_widget.setColumnCount(len(headers))
@@ -23,6 +25,7 @@ class TableManager:
             self.add_row(data_row)
 
     def add_row(self, data_row):
+        """Add a single row of data to the table."""
         row_index = self.table_widget.rowCount()
         self.table_widget.insertRow(row_index)
         for column_index, value in enumerate(data_row):
@@ -37,6 +40,7 @@ class TableManager:
             QMessageBox.information(None, "Success", "The row has been successfully deleted.")
 
     def header_to_db_column(self, header_text):
+        """Map table headers to database column names."""
         # Normalize header text to database column names
         mapping = {
             'ID': 'id',
@@ -53,6 +57,7 @@ class TableManager:
         return mapping.get(header_text)
 
     def update_all_rows(self):
+        """Update all modified rows in the database."""
         errors = False
         for row in range(self.table_widget.rowCount()):
             if not self.update_row(row):
@@ -66,6 +71,10 @@ class TableManager:
             QMessageBox.information(None, "Success", "All data have been successfully updated.")
 
     def update_row(self, row):
+        """
+        Update a single row in the database based on current table data.
+        This method includes validation checks and error handling to ensure data integrity.
+        """
         id = int(self.table_widget.item(row, 0).text())
         original_data = {
             self.header_to_db_column(self.table_widget.horizontalHeaderItem(col).text()): self.table_widget.item(row,
