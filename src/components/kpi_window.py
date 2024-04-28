@@ -1,17 +1,13 @@
 import os
-
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QWidget
 import pandas as pd
-from ui.kpi_ui import Ui_kpi_window
-
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import Paragraph, Frame, Spacer, TableStyle
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.lib.styles import getSampleStyleSheet
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QTableWidget, QTableWidgetItem
+from matplotlib import pyplot as plt
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from ui.kpi_ui import Ui_kpi_window
 
 
 class KPIManager(QMainWindow, Ui_kpi_window):
@@ -63,6 +59,17 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.costs_label.setText(f"Total Costs: {total_costs:,.2f} €")
         self.label_3.setText(f"Net Income: {net_income:,.2f} €")
 
+    def first_graph(self):
+        """Crée un graphique à barres pour afficher les revenus mensuels par pays."""
+        df = self.load_data()
+        if not df.empty:
+            monthly_revenue_by_country = df.groupby('country')['monthly_revenue'].sum()
+            monthly_revenue_by_country.plot(kind='bar', title='Monthly Revenue by Country')
+            plt.ylabel('Revenue (€)')
+            plt.show()
+        else:
+            print("No data to display.")
+
     def update_income_tables(self, df):
         # Group and aggregate data for income by country and date
         income_by_country_date = df.groupby(['country', 'date']).apply(
@@ -92,56 +99,49 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.date_country_income_table.clear()
 
     def generate_pdf(self):
-        # Emplacement du fichier PDF
+        """Generates a PDF report detailing KPIs including revenue, costs, and net income by country and date."""
+        # Set the path to save the PDF
         download_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'KPI_Report.pdf')
 
-        # Créer un document PDF
+        # Create a PDF document template with specified pagesize
         doc = SimpleDocTemplate(download_path, pagesize=A4)
         story = []
 
-        # Styles pour le document
+        # Get default styles and customize
         styles = getSampleStyleSheet()
         header_style = styles['Heading1']
         body_style = styles['BodyText']
 
-        # Ajouter des informations générales
+        # Add a title and the KPI summaries to the document
         story.append(Paragraph('KPI Report', header_style))
         story.append(Paragraph(f'Total Revenue: {self.revenue_label.text()}', body_style))
         story.append(Paragraph(f'Total Costs: {self.costs_label.text()}', body_style))
         story.append(Paragraph(f'Net Income: {self.label_3.text()}', body_style))
         story.append(Spacer(1, 0.2 * inch))
 
-        # Préparer les données des tableaux pour inclusion
-        # Note: Assurez-vous que les DataFrames sont correctement préparées avant cette étape
+        # Prepare the data for inclusion in the report
         df_country_date, df_date_country = self.prepare_data_for_pdf()
 
-        # Convertir DataFrame en données de tableau pour ReportLab
+        # Convert DataFrame data into a format suitable for ReportLab's Table object
         data_country_date = [['Country', 'Date', 'Net Income']] + df_country_date.values.tolist()
         data_date_country = [['Date', 'Country', 'Net Income']] + df_date_country.values.tolist()
 
-        # Tables
-        table_country_date = Table(data_country_date)
-        table_date_country = Table(data_date_country)
+        # Create tables for the PDF
+        table_country_date = Table(data_country_date, [200, 200, 100])
+        table_date_country = Table(data_date_country, [200, 200, 100])
 
-        table_country_date.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('BOX', (0, 0), (-1, -1), 2, colors.black),
-        ]))
+        # Define table styles
+        for table in (table_country_date, table_date_country):
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('BOX', (0, 0), (-1, -1), 2, colors.black),
+            ]))
 
-        table_date_country.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('BOX', (0, 0), (-1, -1), 2, colors.black),
-        ]))
-
-        # Ajouter les tables au document
+        # Add tables to the story
         story.append(Spacer(1, 0.5 * inch))
         story.append(Paragraph('Income by Country and Date', header_style))
         story.append(table_country_date)
@@ -149,44 +149,25 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         story.append(Paragraph('Income by Date and Country', header_style))
         story.append(table_date_country)
 
-        # Construire le document PDF
+        # Build the PDF document
         doc.build(story)
         print(f"PDF created and saved as '{download_path}'.")
 
     def prepare_data_for_pdf(self):
-        # Charger les données depuis la base de données ou les utiliser directement depuis les tableaux
-        df = self.load_data()
+        """Prepares data for PDF report by querying the database and grouping it by country/date and date/country."""
+        df = self.load_data()  # Load data from the database
 
         # Group and aggregate data for income by country and date
         df_country_date = df.groupby(['country', 'date']).apply(
-            lambda x: x['monthly_revenue'].sum() - x['monthly_costs'].sum() - x['advertising_costs'].sum()).reset_index(name='Net Income')
+            lambda x: x['monthly_revenue'].sum() - x['monthly_costs'].sum() - x['advertising_costs'].sum()).reset_index(
+            name='Net Income')
 
         # Group and aggregate data for income by date and country
         df_date_country = df.groupby(['date', 'country']).apply(
-            lambda x: x['monthly_revenue'].sum() - x['monthly_costs'].sum() - x['advertising_costs'].sum()).reset_index(name='Net Income')
+            lambda x: x['monthly_revenue'].sum() - x['monthly_costs'].sum() - x['advertising_costs'].sum()).reset_index(
+            name='Net Income')
 
         return df_country_date, df_date_country
-
-    def add_pdf_table(self, canvas, x_pos, start_y, table_widget, title):
-        """ Ajoute un tableau de données à un PDF. """
-        # Ajouter le titre du tableau
-        canvas.drawString(x_pos, start_y, title)
-
-        # Obtenir les données du tableau
-        num_rows = table_widget.rowCount()
-        num_cols = table_widget.columnCount()
-
-        # Ecrire les en-têtes
-        row_height = 15
-        for col in range(num_cols):
-            canvas.drawString(x_pos + col * 100, start_y - 15, table_widget.horizontalHeaderItem(col).text())
-
-        # Ecrire les données du tableau
-        for row in range(num_rows):
-            for col in range(num_cols):
-                item = table_widget.item(row, col)
-                if item:  # Vérifier si l'item n'est pas None
-                    canvas.drawString(x_pos + col * 100, start_y - 30 - (row + 1) * row_height, item.text())
 
     def show(self):
         """ Afficher le widget et mettre à jour l'affichage. """
