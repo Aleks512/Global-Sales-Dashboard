@@ -18,8 +18,13 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.pushButton.clicked.connect(self.generate_pdf)
         self.init_widgets()
 
+    def setup_widget_layout(self, widget):
+        # Crée un QVBoxLayout si le widget n'en a pas déjà un
+        if widget.layout() is None:
+            layout = QVBoxLayout(widget)
+            widget.setLayout(layout)
+
     def init_widgets(self):
-        # Assurez-vous que chaque widget a un QVBoxLayout pour ajouter des tableaux
         self.setup_widget_layout(self.country_wdg)
         self.setup_widget_layout(self.date_wdg)
 
@@ -29,26 +34,12 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.country_wdg.layout().addWidget(self.country_date_income_table)
         self.date_wdg.layout().addWidget(self.date_country_income_table)
 
-    def setup_widget_layout(self, widget):
-        # Crée un QVBoxLayout si le widget n'en a pas déjà un
-        if widget.layout() is None:
-            layout = QVBoxLayout(widget)
-            widget.setLayout(layout)
-
     def load_data(self):
         """ Chargement des données depuis la base de données. """
         query = "SELECT * FROM sales_data"
         df = pd.read_sql_query(query, self.db_manager.connection)
+        print(df.head())
         return df
-
-    def update_display(self):
-        """ Mise à jour de l'affichage en fonction des données chargées. """
-        df = self.load_data()
-        if not df.empty:
-            self.update_kpi_labels(df)
-            self.update_income_tables(df)
-        else:
-            self.clear_tables()
 
     def update_kpi_labels(self, df):
         total_revenue = df['monthly_revenue'].sum()
@@ -59,6 +50,16 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.costs_label.setText(f"Total Costs: {total_costs:,.2f} €")
         self.label_3.setText(f"Net Income: {net_income:,.2f} €")
 
+    def update_display(self):
+        """ Mise à jour de l'affichage en fonction des données chargées. """
+        df = self.load_data()
+        if not df.empty:
+            self.update_kpi_labels(df)
+            self.update_income_tables(df)
+        else:
+            self.clear_tables()
+
+
     def first_graph(self):
         """Crée un graphique à barres pour afficher les revenus mensuels par pays."""
         df = self.load_data()
@@ -66,6 +67,17 @@ class KPIManager(QMainWindow, Ui_kpi_window):
             monthly_revenue_by_country = df.groupby('country')['monthly_revenue'].sum()
             monthly_revenue_by_country.plot(kind='bar', title='Monthly Revenue by Country')
             plt.ylabel('Revenue (€)')
+            plt.show()
+        else:
+            print("No data to display.")
+
+    def second_graph(self):
+        """Crée un graphique à barres pour afficher les coûts mensuels par pays."""
+        df = self.load_data()
+        if not df.empty:
+            monthly_costs_by_country = df.groupby('country')['monthly_costs'].sum()
+            monthly_costs_by_country.plot(kind='bar', title='Monthly Costs by Country')
+            plt.ylabel('Costs (€)')
             plt.show()
         else:
             print("No data to display.")
