@@ -1,0 +1,6 @@
+(venv) PS C:\Users\aleks\PycharmProjects\Global-Sales-Dashboard\src\ui> pyside6-uic ui_main.ui -o ui_main.py
+
+documentation
+(venv) PS C:\Users\aleks\PycharmProjects\Global-Sales-Dashboard\documentation> .\make.bat clean
+Removing everything under 'build'...
+(venv) PS C:\Users\aleks\PycharmProjects\Global-Sales-Dashboard\documentation> .\make.bat html

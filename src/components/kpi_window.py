@@ -1,13 +1,16 @@
 import os
 import pandas as pd
+from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QTableWidget, QTableWidgetItem
 from matplotlib import pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from ui.kpi_ui import Ui_kpi_window
+
 
 
 class KPIManager(QMainWindow, Ui_kpi_window):
@@ -17,6 +20,7 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.setupUi(self)  # Initialisation de l'interface utilisateur depuis Ui_kpi_window
         self.pushButton.clicked.connect(self.generate_pdf)
         self.init_widgets()
+        self.setWindowTitle("Sales Data Management")
 
     def setup_widget_layout(self, widget):
         # Crée un QVBoxLayout si le widget n'en a pas déjà un
@@ -59,28 +63,6 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         else:
             self.clear_tables()
 
-
-    def first_graph(self):
-        """Crée un graphique à barres pour afficher les revenus mensuels par pays."""
-        df = self.load_data()
-        if not df.empty:
-            monthly_revenue_by_country = df.groupby('country')['monthly_revenue'].sum()
-            monthly_revenue_by_country.plot(kind='bar', title='Monthly Revenue by Country')
-            plt.ylabel('Revenue (€)')
-            plt.show()
-        else:
-            print("No data to display.")
-
-    def second_graph(self):
-        """Crée un graphique à barres pour afficher les coûts mensuels par pays."""
-        df = self.load_data()
-        if not df.empty:
-            monthly_costs_by_country = df.groupby('country')['monthly_costs'].sum()
-            monthly_costs_by_country.plot(kind='bar', title='Monthly Costs by Country')
-            plt.ylabel('Costs (€)')
-            plt.show()
-        else:
-            print("No data to display.")
 
     def update_income_tables(self, df):
         # Group and aggregate data for income by country and date
@@ -180,6 +162,64 @@ class KPIManager(QMainWindow, Ui_kpi_window):
             name='Net Income')
 
         return df_country_date, df_date_country
+
+    def create_costs_graph(self):
+        """Creates a bar graph for monthly costs by country and returns a QPixmap."""
+        df = self.load_data()
+        if not df.empty:
+            monthly_costs_by_country = df.groupby('country')['monthly_costs'].sum()
+            fig, ax = plt.subplots(figsize=(5.44, 2.92))  # Size in inches to match QGraphicView size
+            monthly_costs_by_country.plot(kind='bar', color='red', title='Monthly Costs by Country', ax=ax)
+            ax.set_ylabel('Costs (€)')
+            return self.fig_to_pixmap(fig)
+        else:
+            print("No data to display.")
+            return None
+
+    def create_revenue_graph(self):
+        """Creates a bar graph for monthly revenue by country and returns a QPixmap."""
+        df = self.load_data()
+        if not df.empty:
+            fig, ax = plt.subplots(figsize=(5.44, 2.92))  # Size in inches to match QGraphicView size
+            monthly_revenue_by_country = df.groupby('country')['monthly_revenue'].sum()
+            monthly_revenue_by_country.plot(kind='bar', color='blue', title='Monthly Revenue by Country', ax=ax)
+            ax.set_ylabel('Revenue (€)')
+            return self.fig_to_pixmap(fig)
+        else:
+            print("No data to display.")
+            return None
+
+    def fig_to_pixmap(self, fig):
+        """Converts a matplotlib figure to a QPixmap."""
+        canvas = FigureCanvasAgg(fig)
+        canvas.draw()
+        buf = canvas.buffer_rgba()
+        qimage = QImage(buf, int(fig.get_size_inches()[0] * fig.dpi), int(fig.get_size_inches()[1] * fig.dpi), QImage.Format_ARGB32)
+        pixmap = QPixmap.fromImage(qimage)
+        return pixmap
+
+
+    # def first_graph(self):
+    #     """Crée un graphique à barres pour afficher les revenus mensuels par pays."""
+    #     df = self.load_data()
+    #     if not df.empty:
+    #         monthly_revenue_by_country = df.groupby('country')['monthly_revenue'].sum()
+    #         monthly_revenue_by_country.plot(kind='bar', title='Monthly Revenue by Country')
+    #         plt.ylabel('Revenue (€)')
+    #         plt.show()
+    #     else:
+    #         print("No data to display.")
+    #
+    # def second_graph(self):
+    #     """Crée un graphique à barres pour afficher les coûts mensuels par pays."""
+    #     df = self.load_data()
+    #     if not df.empty:
+    #         monthly_costs_by_country = df.groupby('country')['monthly_costs'].sum()
+    #         monthly_costs_by_country.plot(kind='bar', title='Monthly Costs by Country')
+    #         plt.ylabel('Costs (€)')
+    #         plt.show()
+    #     else:
+    #         print("No data to display.")
 
     def show(self):
         """ Afficher le widget et mettre à jour l'affichage. """

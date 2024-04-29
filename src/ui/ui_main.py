@@ -25,10 +25,18 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1499, 903)
+        MainWindow.resize(1488, 895)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
+        self.centralwidget.setMinimumSize(QSize(1200, 0))
         self.centralwidget.setStyleSheet(u"QWidget {\n"
 " \n"
 "qconicalgradient(cx:0.486, cy:0.505682, angle:0, stop:0.86758 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255))\n"
@@ -79,15 +87,15 @@ class Ui_MainWindow(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.data_tb_wgt.setHorizontalHeaderItem(8, __qtablewidgetitem8)
         self.data_tb_wgt.setObjectName(u"data_tb_wgt")
-        self.data_tb_wgt.setGeometry(QRect(20, 440, 1061, 321))
+        self.data_tb_wgt.setGeometry(QRect(20, 470, 1061, 321))
         self.data_tb_wgt.setStyleSheet(u"gridline-color: rgb(85, 0, 127);")
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setGeometry(QRect(290, 100, 461, 281))
+        self.graphicsView.setGeometry(QRect(290, 100, 516, 341))
         self.graphicsView.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.graphicsView_2 = QGraphicsView(self.centralwidget)
         self.graphicsView_2.setObjectName(u"graphicsView_2")
-        self.graphicsView_2.setGeometry(QRect(760, 100, 571, 281))
+        self.graphicsView_2.setGeometry(QRect(809, 100, 516, 341))
         self.graphicsView_2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.layoutWidget = QWidget(self.centralwidget)
         self.layoutWidget.setObjectName(u"layoutWidget")
@@ -187,11 +195,11 @@ class Ui_MainWindow(object):
 
         self.add_btn = QPushButton(self.layoutWidget)
         self.add_btn.setObjectName(u"add_btn")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.add_btn.sizePolicy().hasHeightForWidth())
-        self.add_btn.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.add_btn.sizePolicy().hasHeightForWidth())
+        self.add_btn.setSizePolicy(sizePolicy1)
 
         self.gridLayout.addWidget(self.add_btn, 9, 1, 1, 1)
 
@@ -203,8 +211,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.save_btn = QPushButton(self.layoutWidget1)
         self.save_btn.setObjectName(u"save_btn")
-        sizePolicy.setHeightForWidth(self.save_btn.sizePolicy().hasHeightForWidth())
-        self.save_btn.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.save_btn.sizePolicy().hasHeightForWidth())
+        self.save_btn.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.save_btn)
 
@@ -214,8 +222,8 @@ class Ui_MainWindow(object):
 
         self.delete_btn = QPushButton(self.layoutWidget1)
         self.delete_btn.setObjectName(u"delete_btn")
-        sizePolicy.setHeightForWidth(self.delete_btn.sizePolicy().hasHeightForWidth())
-        self.delete_btn.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.delete_btn.sizePolicy().hasHeightForWidth())
+        self.delete_btn.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.delete_btn)
 
@@ -225,8 +233,8 @@ class Ui_MainWindow(object):
 
         self.gen_repport_btn = QPushButton(self.layoutWidget1)
         self.gen_repport_btn.setObjectName(u"gen_repport_btn")
-        sizePolicy.setHeightForWidth(self.gen_repport_btn.sizePolicy().hasHeightForWidth())
-        self.gen_repport_btn.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.gen_repport_btn.sizePolicy().hasHeightForWidth())
+        self.gen_repport_btn.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.gen_repport_btn)
 
@@ -236,8 +244,8 @@ class Ui_MainWindow(object):
 
         self.image_upload_btn = QPushButton(self.layoutWidget1)
         self.image_upload_btn.setObjectName(u"image_upload_btn")
-        sizePolicy.setHeightForWidth(self.image_upload_btn.sizePolicy().hasHeightForWidth())
-        self.image_upload_btn.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.image_upload_btn.sizePolicy().hasHeightForWidth())
+        self.image_upload_btn.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.image_upload_btn)
 
@@ -257,11 +265,11 @@ class Ui_MainWindow(object):
 
         self.revenue_lb_2 = QLabel(self.layoutWidget2)
         self.revenue_lb_2.setObjectName(u"revenue_lb_2")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.revenue_lb_2.sizePolicy().hasHeightForWidth())
-        self.revenue_lb_2.setSizePolicy(sizePolicy1)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.revenue_lb_2.sizePolicy().hasHeightForWidth())
+        self.revenue_lb_2.setSizePolicy(sizePolicy2)
         self.revenue_lb_2.setStyleSheet(u"background-color: rgb(100, 255, 0);\n"
 "font: 700 12pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);\n"
@@ -286,8 +294,8 @@ class Ui_MainWindow(object):
 
         self.costs_lb_2 = QLabel(self.layoutWidget2)
         self.costs_lb_2.setObjectName(u"costs_lb_2")
-        sizePolicy1.setHeightForWidth(self.costs_lb_2.sizePolicy().hasHeightForWidth())
-        self.costs_lb_2.setSizePolicy(sizePolicy1)
+        sizePolicy2.setHeightForWidth(self.costs_lb_2.sizePolicy().hasHeightForWidth())
+        self.costs_lb_2.setSizePolicy(sizePolicy2)
         self.costs_lb_2.setStyleSheet(u"background-color: rgb(200, 255, 0);\n"
 "font: 700 12pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);\n"
@@ -312,8 +320,8 @@ class Ui_MainWindow(object):
 
         self.income_lb = QLabel(self.layoutWidget2)
         self.income_lb.setObjectName(u"income_lb")
-        sizePolicy1.setHeightForWidth(self.income_lb.sizePolicy().hasHeightForWidth())
-        self.income_lb.setSizePolicy(sizePolicy1)
+        sizePolicy2.setHeightForWidth(self.income_lb.sizePolicy().hasHeightForWidth())
+        self.income_lb.setSizePolicy(sizePolicy2)
         self.income_lb.setStyleSheet(u"background-color: rgb(255, 85, 0);\n"
 "font: 700 12pt \"Segoe UI\";\n"
 "color: rgb(0, 0, 0);\n"
@@ -326,13 +334,13 @@ class Ui_MainWindow(object):
 
         self.kpi_btn = QPushButton(self.centralwidget)
         self.kpi_btn.setObjectName(u"kpi_btn")
-        self.kpi_btn.setGeometry(QRect(1220, 390, 111, 36))
-        sizePolicy.setHeightForWidth(self.kpi_btn.sizePolicy().hasHeightForWidth())
-        self.kpi_btn.setSizePolicy(sizePolicy)
+        self.kpi_btn.setGeometry(QRect(170, 390, 111, 36))
+        sizePolicy1.setHeightForWidth(self.kpi_btn.sizePolicy().hasHeightForWidth())
+        self.kpi_btn.setSizePolicy(sizePolicy1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1499, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1488, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")

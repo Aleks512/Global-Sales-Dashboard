@@ -1,11 +1,16 @@
 import locale
-from PySide6.QtWidgets import QMainWindow, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QMessageBox, QGraphicsScene
+from matplotlib import pyplot as plt
+
 from ui.ui_main import Ui_MainWindow
 from components.form_manager import FormManager
 from components.table_manager import TableManager
 from database import DatabaseManager
 from components.kpi_window import KPIManager
 import pandas as pd
+from PySide6.QtGui import QImage, QIcon
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+
 
 # Set the locale to support thousands' separator
 locale.setlocale(locale.LC_ALL, '')
@@ -19,12 +24,15 @@ class MainWindowController(QMainWindow):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle("Sales Data Management")
+        self.setWindowIcon(QIcon('./assets/sleek_icon.webp'))
+
 
         # Initialize database and managers
         self.db_manager = DatabaseManager()
         self.form_manager = FormManager(self.ui)
         self.table_manager = TableManager(self.ui.data_tb_wgt, self.db_manager)
-        self.kpi_manager = KPIManager(self.db_manager)
+        self.kpi_manager = KPIManager(self.db_manager)  # Assuming db_manager is initialized
 
         # Setup table with headers
         headers = ['ID', 'Filiale Name', 'Country', 'Date', 'Revenue €', 'Costs €', 'Volume', 'Clients',
@@ -38,6 +46,7 @@ class MainWindowController(QMainWindow):
         self.ui.delete_btn.clicked.connect(self.delete_selected_data)
         self.ui.gen_repport_btn.clicked.connect(self.update_display)
         self.ui.kpi_btn.clicked.connect(self.kpi_manager.show)
+        self.ui.image_upload_btn.clicked.connect(self.update_graphics_views)
         # Initialize display with data
         self.update_display()
     def show_kpi(self):
@@ -88,6 +97,22 @@ class MainWindowController(QMainWindow):
                 QMessageBox.information(self, "Deletion", "The row has been successfully deleted.")
             else:
                 QMessageBox.information(self, "Cancellation", "Deletion cancelled.")
+
+    def update_graphics_views(self):
+        revenue_pixmap = self.kpi_manager.create_revenue_graph()
+        if revenue_pixmap:
+            scene = QGraphicsScene()
+            scene.addPixmap(revenue_pixmap)
+            self.ui.graphicsView.setScene(scene)
+
+        costs_pixmap = self.kpi_manager.create_costs_graph()
+        if costs_pixmap:
+            scene2 = QGraphicsScene()
+            scene2.addPixmap(costs_pixmap)
+            self.ui.graphicsView_2.setScene(scene2)
+        else:
+            print("Failed to create costs graph.")
+
 
     def closeEvent(self, event):
         """
