@@ -1,4 +1,6 @@
 import locale
+import logging
+
 from PySide6.QtWidgets import QMainWindow, QMessageBox, QGraphicsScene
 from matplotlib import pyplot as plt
 
@@ -80,9 +82,15 @@ class MainWindowController(QMainWindow):
         """
         data = self.form_manager.collect_data()
         if data and self.form_manager.validate_data(data):
-            self.db_manager.add_entry(**data)
-            self.table_manager.load_data()
-            self.form_manager.reset_inputs()
+            try:
+                self.db_manager.add_entry(**data)
+                self.table_manager.load_data()
+                self.form_manager.reset_inputs()
+                logging.info(f"Added data: {data}")
+            except Exception as e:
+                logging.error(f"Failed to add data: {data}, error: {e}")
+                QMessageBox.critical(self, "Error", f"Failed to add data. Error: {str(e)}")
+
 
 
     def delete_selected_data(self):

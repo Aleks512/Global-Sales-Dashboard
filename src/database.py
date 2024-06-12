@@ -52,6 +52,7 @@ class DatabaseManager:
         Adds a new entry to the sales_data table.
         """
         try:
+            self.connection.execute("BEGIN")
             self.cursor.execute("""
                 INSERT INTO sales_data (filiale_name, country, date, monthly_revenue, monthly_costs, sales_volume, new_clients, satisfaction_rate, advertising_costs)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -73,6 +74,7 @@ class DatabaseManager:
         Updates an entry in the sales_data table based on the given id.
         """
         try:
+            self.connection.execute("BEGIN")
             self.cursor.execute("""
                 UPDATE sales_data SET
                 filiale_name = ?, country = ?, date = ?, monthly_revenue = ?, monthly_costs = ?, sales_volume = ?, new_clients = ?, satisfaction_rate = ?, advertising_costs = ?

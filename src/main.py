@@ -1,8 +1,11 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from controller import MainWindowController
+import logging
 
 def main():
+    logging.basicConfig(level=logging.INFO)
+    logging.info("Starting application...")
     app = QApplication(sys.argv)
     main_window = MainWindowController()
     main_window.show()

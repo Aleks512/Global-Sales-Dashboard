@@ -14,13 +14,16 @@ from ui.kpi_ui import Ui_kpi_window
 
 
 class KPIManager(QMainWindow, Ui_kpi_window):
+    """Gestionnaire de KPI pour afficher les indicateurs clés de performance et générer des rapports."""
     def __init__(self, db_manager):
-        super().__init__()
+        super().__init__() # Appelle le constructeur des classes parentes.
         self.db_manager = db_manager  # Utilisation du singleton de la base de données
         self.setupUi(self)  # Initialisation de l'interface utilisateur depuis Ui_kpi_window
-        self.pushButton.clicked.connect(self.generate_pdf)
-        self.init_widgets()
-        self.setWindowTitle("Sales Data Management")
+        #configure les widgets et les layouts définis dans le fichier .ui. Elle prend une instance de QMainWindow
+        # (ici self) et configure l'interface utilisateur en conséquence
+        self.pushButton.clicked.connect(self.generate_pdf) # Connexion du bouton pour générer un PDF
+        self.init_widgets() # Initialisation des widgets
+        self.setWindowTitle("Sales Data Management")    # Définition du titre de la fenêtre
 
     def setup_widget_layout(self, widget):
         # Crée un QVBoxLayout si le widget n'en a pas déjà un
@@ -39,13 +42,15 @@ class KPIManager(QMainWindow, Ui_kpi_window):
         self.date_wdg.layout().addWidget(self.date_country_income_table)
 
     def load_data(self):
-        """ Chargement des données depuis la base de données. """
+        """ Chargement des données depuis la base de données dans un DataFrame pandas. . """
         query = "SELECT * FROM sales_data"
         df = pd.read_sql_query(query, self.db_manager.connection)
         print(df.head())
         return df
 
     def update_kpi_labels(self, df):
+        """ egroupe et agrège les données pour les revenus nets par pays et date,
+        et par date et pays, puis configure les tables pour afficher ces données. """
         total_revenue = df['monthly_revenue'].sum()
         total_costs = df['monthly_costs'].sum()
         net_income = total_revenue - total_costs - df['advertising_costs'].sum()
@@ -76,67 +81,67 @@ class KPIManager(QMainWindow, Ui_kpi_window):
 
     def setup_table(self, table_widget, data_df):
         """ Configure un QTableWidget avec des données DataFrame. """
-        table_widget.setRowCount(data_df.shape[0])
-        table_widget.setColumnCount(data_df.shape[1])
-        table_widget.setHorizontalHeaderLabels(data_df.columns.tolist())
-        for i in range(data_df.shape[0]):
-            for j in range(data_df.shape[1]):
-                item = QTableWidgetItem(str(data_df.iloc[i, j]))
-                table_widget.setItem(i, j, item)
+        table_widget.setRowCount(data_df.shape[0]) # Nombre de lignes
+        table_widget.setColumnCount(data_df.shape[1]) # Nombre de colonnes
+        table_widget.setHorizontalHeaderLabels(data_df.columns.tolist()) # Noms des colonnes
+        for i in range(data_df.shape[0]): # Remplissage des cellules
+            for j in range(data_df.shape[1]): # Parcours des lignes et colonnes
+                item = QTableWidgetItem(str(data_df.iloc[i, j])) # Création d'un élément de cellule
+                table_widget.setItem(i, j, item) # Ajout de l'élément à la table
 
-    def clear_tables(self):
+    def clear_tables(self): # Efface toutes les tables et labels lorsqu'il n'y a pas de données.
         """ Efface toutes les tables et labels lorsqu'il n'y a pas de données. """
-        self.revenue_label.setText("No Data")
-        self.costs_label.setText("No Data")
-        self.label_3.setText("No Data")
-        self.country_date_income_table.clear()
-        self.date_country_income_table.clear()
+        self.revenue_label.setText("No Data") # Affiche "No Data" dans les labels
+        self.costs_label.setText("No Data") # Affiche "No Data" dans les labels
+        self.label_3.setText("No Data")     # Affiche "No Data" dans les labels
+        self.country_date_income_table.clear() # Efface les tables
+        self.date_country_income_table.clear() # Efface les tables
 
-    def generate_pdf(self):
+    def generate_pdf(self): # Génère un rapport PDF avec les KPI
         """Generates a PDF report detailing KPIs including revenue, costs, and net income by country and date."""
         # Set the path to save the PDF
-        download_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'KPI_Report.pdf')
+        download_path = os.path.join(os.path.expanduser('~'), 'Downloads', 'KPI_Report.pdf') # Chemin de téléchargement
 
         # Create a PDF document template with specified pagesize
-        doc = SimpleDocTemplate(download_path, pagesize=A4)
-        story = []
+        doc = SimpleDocTemplate(download_path, pagesize=A4) # Crée un document PDF avec une taille de page A4
+        story = [] # Liste pour stocker les éléments du document
 
         # Get default styles and customize
-        styles = getSampleStyleSheet()
-        header_style = styles['Heading1']
-        body_style = styles['BodyText']
+        styles = getSampleStyleSheet() # Styles par défaut
+        header_style = styles['Heading1'] # Style pour les en-têtes
+        body_style = styles['BodyText'] # Style pour le texte
 
         # Add a title and the KPI summaries to the document
-        story.append(Paragraph('KPI Report', header_style))
-        story.append(Paragraph(f'Total Revenue: {self.revenue_label.text()}', body_style))
-        story.append(Paragraph(f'Total Costs: {self.costs_label.text()}', body_style))
-        story.append(Paragraph(f'Net Income: {self.label_3.text()}', body_style))
-        story.append(Spacer(1, 0.2 * inch))
+        story.append(Paragraph('KPI Report', header_style)) # Ajoute un titre
+        story.append(Paragraph(f'Total Revenue: {self.revenue_label.text()}', body_style))  # Ajoute le total des revenus
+        story.append(Paragraph(f'Total Costs: {self.costs_label.text()}', body_style))  # Ajoute le total des coûts
+        story.append(Paragraph(f'Net Income: {self.label_3.text()}', body_style))   # Ajoute le revenu net
+        story.append(Spacer(1, 0.2 * inch)) # Ajoute un espace
 
         # Prepare the data for inclusion in the report
-        df_country_date, df_date_country = self.prepare_data_for_pdf()
+        df_country_date, df_date_country = self.prepare_data_for_pdf() # Prépare les données pour le rapport PDF
 
         # Convert DataFrame data into a format suitable for ReportLab's Table object
-        data_country_date = [['Country', 'Date', 'Net Income']] + df_country_date.values.tolist()
-        data_date_country = [['Date', 'Country', 'Net Income']] + df_date_country.values.tolist()
+        data_country_date = [['Country', 'Date', 'Net Income']] + df_country_date.values.tolist()   # Données par pays et date
+        data_date_country = [['Date', 'Country', 'Net Income']] + df_date_country.values.tolist()   # Données par date et pays
 
         # Create tables for the PDF
-        table_country_date = Table(data_country_date, [200, 200, 100])
-        table_date_country = Table(data_date_country, [200, 200, 100])
+        table_country_date = Table(data_country_date, [200, 200, 100]) # Tableau pour les données par pays et date
+        table_date_country = Table(data_date_country, [200, 200, 100]) # Tableau pour les données par date et pays
 
         # Define table styles
-        for table in (table_country_date, table_date_country):
-            table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ('BOX', (0, 0), (-1, -1), 2, colors.black),
+        for table in (table_country_date, table_date_country): # Parcours des tables
+            table.setStyle(TableStyle([ # Style des tables
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey), # Couleur de fond pour la première ligne
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke), # Couleur du texte pour la première ligne
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),      # Alignement du texte au centre
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica-Bold'),   # Police en gras
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),    # Couleur de la grille
+                ('BOX', (0, 0), (-1, -1), 2, colors.black),    # Couleur de la bordure
             ]))
 
         # Add tables to the story
-        story.append(Spacer(1, 0.5 * inch))
+        story.append(Spacer(1, 0.5 * inch)) # Ajoute un espace
         story.append(Paragraph('Income by Country and Date', header_style))
         story.append(table_country_date)
         story.append(Spacer(1, 0.5 * inch))
@@ -191,9 +196,9 @@ class KPIManager(QMainWindow, Ui_kpi_window):
 
     def fig_to_pixmap(self, fig):
         """Converts a matplotlib figure to a QPixmap."""
-        canvas = FigureCanvasAgg(fig)
-        canvas.draw()
-        buf = canvas.buffer_rgba()
+        canvas = FigureCanvasAgg(fig) # Convertit la figure en un canevas
+        canvas.draw() # Dessine le canevas
+        buf = canvas.buffer_rgba() # Convertit le canevas en un tampon RGBA
         qimage = QImage(buf, int(fig.get_size_inches()[0] * fig.dpi), int(fig.get_size_inches()[1] * fig.dpi), QImage.Format_ARGB32)
         pixmap = QPixmap.fromImage(qimage)
         return pixmap
@@ -223,5 +228,5 @@ class KPIManager(QMainWindow, Ui_kpi_window):
 
     def show(self):
         """ Afficher le widget et mettre à jour l'affichage. """
-        self.update_display()
-        super().show()
+        self.update_display() # Met à jour l'affichage
+        super().show() # Affiche le widget

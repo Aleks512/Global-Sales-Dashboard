@@ -34,19 +34,19 @@ class FormManager:
           """
         try:
             data = {
-                "filiale_name": self.ui.fil_name_le.text().strip(),
+                "filiale_name": self.ui.fil_name_le.text().strip(), # Remove leading/trailing whitespace
                 "country": self.ui.country_le.text().strip(),
-                "date": self.ui.dateEdit.date().toString("yyyy-MM-dd"),
-                "monthly_revenue": float(self.ui.revenue_le.text()),
-                "monthly_costs": float(self.ui.costs_le.text()),
-                "sales_volume": int(self.ui.vol_le.text()),
-                "new_clients": int(self.ui.new_client_nr_le.text()),
-                "satisfaction_rate": int(self.ui.satisfaction_le.text()),
-                "advertising_costs": float(self.ui.depense_pub_le.text())
+                "date": self.ui.dateEdit.date().toString("yyyy-MM-dd"),     # Convert QDate to string
+                "monthly_revenue": float(self.ui.revenue_le.text()), # Convert text to float
+                "monthly_costs": float(self.ui.costs_le.text()), # Convert text to float
+                "sales_volume": int(self.ui.vol_le.text()), # Convert text to integer
+                "new_clients": int(self.ui.new_client_nr_le.text()), # Convert text to integer
+                "satisfaction_rate": int(self.ui.satisfaction_le.text()), # Convert text to integer
+                "advertising_costs": float(self.ui.depense_pub_le.text()) # Convert text to float
             }
-            if not self.validate_data(data):
-                return None
-            return data
+            if not self.validate_data(data): # Validate the collected data
+                return None # Return None if validation fails
+            return data # Return the collected data if validation succeeds
         except ValueError as e:
             QMessageBox.warning(None, "Erreur de saisie", "Veuillez vérifier vos saisies. Tous les champs doivent être correctement remplis.")
             return None
@@ -64,14 +64,14 @@ class FormManager:
         Returns:
             bool: True if all data is present and valid, False if any fields are missing.
         """
-        if not all(data.values()):
+        if not all(data.values()): # Check if all values are present
             QMessageBox.warning(None, "Erreur de saisie", "Veuillez vérifier vos saisies. Tous les champs doivent être correctement remplis.")
             return False
         if any([
-            data["monthly_revenue"] < 0, data["monthly_costs"] < 0,
-            data["sales_volume"] < 0, data["new_clients"] < 0,
-            data["satisfaction_rate"] < 0 or data["satisfaction_rate"] > 100,
-            data["advertising_costs"] < 0
+            data["monthly_revenue"] < 0, data["monthly_costs"] < 0,     # Check for negative values
+            data["sales_volume"] < 0, data["new_clients"] < 0,          # Check for negative values
+            data["satisfaction_rate"] < 0 or data["satisfaction_rate"] > 100, # Check for satisfaction rate out of bounds
+            data["advertising_costs"] < 0                               # Check for negative values
         ]):
             QMessageBox.warning(None, "Input Error", "Numeric fields must not be negative, and satisfaction rate must be between 0 and 100.")
             return False
